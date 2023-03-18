@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="el-GR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ACS Points Plugin demo</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+
+<!-- Checkout - Shipping options -->
+<input type="text" value="16561" placeholder="Zipcode" id="billing_postcode" />
+<button onclick="openMap();">
+    Επιλέξτε ένα ACS Point
+</button>
+<hr />
+<!-- Map Pop Response -->
+<div class="locker-container"></div>
+
+<!-- Map Popup -->
+<div class="acs-sp-wrapper" style="visibility: hidden; opacity: 0;">
+    <div class="acs-sp-container">
+        <div class="acs-sp-header">
+            <img src="./icons/acs-courier-logo.png" alt="ACS Courier Logo" />
+            <span>Επιλέξτε το ACS Point που σας εξυπηρετεί</span>
+        </div>
+        <div class="acs-sp-body">
+            <div class="acs-sp-sidebar">
+                <div class="acs-sp-search-wrapper">
+                    <input id="acs-sp-postcode-input" type="text" placeholder="Search..." />
+                    <button id="acs-sp-postcode-search-trigger">Search</button>
+                </div>
+                <div class="acs-sp-sidebar-points-list-wrapper">
+                    <div class="acs-sp-sidebar-points-list"></div>
+                </div>
+            </div>
+            <div class="acs-sp-sidebar-close-btn acs-sp-btn"></div>
+            <div class="acs-sp-close-btn acs-sp-btn"></div>
+            <div id="acs-sp-map" class="acs-sp-map"></div>
+        </div>
+        <div class="acs-sp-footer"></div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY&libraries=geometry"></script>
+<script src="./js/script.js"></script>
+<script src="./js/markerclusterer.js"></script>
+</body>
+</html>
+

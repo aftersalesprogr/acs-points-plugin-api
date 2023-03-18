@@ -4,6 +4,11 @@ This is a skeleton in order to integrate ACS Points in your checkout.
 
 Please contact us for further instructions or guidance.
 
+## Useful links
+[ACS Points information](https://www.acscourier.net/el/myacs/ta-ergaleia-mou/acs-points-plugin/)
+
+[Plugins and Support](https://aftersalespro.gr/acs-points-plugin)
+
 ## Configuration
 
 #### 1. Google Maps Api Key

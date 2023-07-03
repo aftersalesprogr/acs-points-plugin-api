@@ -37,10 +37,16 @@ curl_close($curl);
 
 $response = json_decode($json_response, true);
 
+$points = $response['ACSOutputResponce']['ACSTableOutput']['Table_Data1'] ?? [];
+
+$points = array_values(array_filter($points, function ($item) {
+    return $item['type'] !== 'branch' || $item['Acs_Station_Branch_Destination'] == '1';
+}));
+
 $data = [
     'code' => curl_getinfo($curl, CURLINFO_HTTP_CODE),
     'meta' => $response['ACSOutputResponce']['ACSTableOutput']['Table_Data'] ?? [],
-    'points' => $response['ACSOutputResponce']['ACSTableOutput']['Table_Data1'] ?? [],
+    'points' => $points ?? [],
 ];
 
 file_put_contents(
@@ -48,6 +54,6 @@ file_put_contents(
     json_encode([
         'timestamp' => date('Y-m-d H:i'),
         'meta' => $response['ACSOutputResponce']['ACSTableOutput']['Table_Data'] ?? [],
-        'points' => $response['ACSOutputResponce']['ACSTableOutput']['Table_Data1'] ?? [],
+        'points' => $points ?? [],
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
 );

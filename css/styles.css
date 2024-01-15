@@ -424,3 +424,17 @@
     line-height: 16px;
     font-size: 14px;
 }
+
+.acs-points-new {
+    background: #E3001C;
+    color: #FFF;
+    border-radius: 10px;
+    padding: 0px 5px 1px;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.point-distance img {
+    display: inline;
+    margin: 0 0 -5px;
+}

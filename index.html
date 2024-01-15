@@ -9,12 +9,16 @@
 <body>
 
 <!-- Checkout - Shipping options -->
-<input type="text" value="16561" placeholder="Zipcode" id="billing_postcode" />
+<input type="text" value="Petrou Ralli 36-38" placeholder="Address" id="billing_address" />
+<input type="text" value="Egaleo" placeholder="City" id="billing_city" />
+<input type="text" value="12241" placeholder="Zipcode" id="billing_postcode" />
 <button onclick="openMap();">
     Επιλέξτε ένα ACS Point
 </button>
 <hr />
 <!-- Map Pop Response -->
+<div class="distance-to-point">...</div>
+<hr />
 <div class="locker-container"></div>
 
 <!-- Map Popup -->
@@ -43,9 +47,18 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIKEY&libraries=geometry"></script>
 <script src="./js/script.js"></script>
+<script>
+    function findClosestLocker(){
+        postcodeSearch(
+            jQuery(elementInputPostcode).val(),
+            jQuery(elementInputAddress).val() + ',' + jQuery(elementInputCity).val(),
+            false
+        );
+    }
+</script>
 <script src="./js/markerclusterer.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEMAPSAPIKEY&libraries=geometry&callback=findClosestLocker"></script>
 </body>
 </html>
 

@@ -56,7 +56,10 @@ function addMarkers() {
                 jQuery(".acs-sp-sidebar-points-list").children().removeClass("active");
                 document.getElementById(locations[counter].id).classList.add('active');
                 let notes = '';//locations[counter].notes;
-                if (locations[counter].type == 'smartlocker') {
+                if (
+                    locations[counter].type == 'smartlocker'
+                    && locations[counter].Acs_Smartpoint_COD_Supported == 1
+                ) {
                     notes = 'Δυνατότητα πληρωμής με Visa/Mastercard.';
                 }
                 infoWindow.setContent(

@@ -9,29 +9,29 @@
 <body>
 
 <!-- Checkout - Shipping options -->
-<input type="text" value="Petrou Ralli 36-38" placeholder="Address" id="billing_address" />
-<input type="text" value="Egaleo" placeholder="City" id="billing_city" />
-<input type="text" value="12241" placeholder="Zipcode" id="billing_postcode" />
+<input type="text" value="Petrou Ralli 36-38" placeholder="Address" id="billing_address"/>
+<input type="text" value="Egaleo" placeholder="City" id="billing_city"/>
+<input type="text" value="12241" placeholder="Zipcode" id="billing_postcode"/>
 <button onclick="openMap();">
     Επιλέξτε ένα ACS Point
 </button>
-<hr />
+<hr/>
 <!-- Map Pop Response -->
 <div class="distance-to-point">...</div>
-<hr />
-<div class="locker-container"></div>
+<hr/>
+<div class="locker-container" style="width: 250px;"></div>
 
 <!-- Map Popup -->
 <div class="acs-sp-wrapper" style="visibility: hidden; opacity: 0;">
     <div class="acs-sp-container">
         <div class="acs-sp-header">
-            <img src="./icons/acs-courier-logo.png" alt="ACS Courier Logo" />
+            <img src="./icons/acs-courier-logo.png" alt="ACS Courier Logo"/>
             <span>Επιλέξτε το ACS Point που σας εξυπηρετεί</span>
         </div>
         <div class="acs-sp-body">
             <div class="acs-sp-sidebar">
                 <div class="acs-sp-search-wrapper">
-                    <input id="acs-sp-postcode-input" type="text" placeholder="Search..." />
+                    <input id="acs-sp-postcode-input" type="text" placeholder="Search..."/>
                     <button id="acs-sp-postcode-search-trigger">Search</button>
                 </div>
                 <div class="acs-sp-sidebar-points-list-wrapper">
@@ -46,19 +46,20 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="//code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 <script src="./js/script.js"></script>
 <script>
-    function findClosestLocker(){
+    function findClosestLocker() {
         postcodeSearch(
             jQuery(elementInputPostcode).val(),
-            jQuery(elementInputAddress).val() + ',' + jQuery(elementInputCity).val(),
-            false
+            jQuery(elementInputAddress).val() + ',' + jQuery(elementInputCity).val()
         );
     }
 </script>
 <script src="./js/markerclusterer.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEMAPSAPIKEY&libraries=geometry&callback=findClosestLocker"></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=GOOGLEMAPSAPIKEY&libraries=geometry&callback=findClosestLocker"></script>
 </body>
 </html>
 

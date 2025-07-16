@@ -109,6 +109,9 @@ jQuery(document).on('click', '.selected', function (e) {
                 <span class="mg-selected-locker-content">
                 ${locations[key].name}</br>${locations[key].street}
                 </span>
+                <span class="mg-selected-locker-payment-status-${locations[key].Acs_Smartpoint_COD_Supported == true ? 'yes' : 'no'}">
+                ${locations[key].Acs_Smartpoint_COD_Supported == true ? 'Με δυνατότητα αντικ/λής.' : 'Χωρίς δυνατότητα αντικ/λής'}
+                </span>
             </a>
          </div>`
     );
@@ -143,12 +146,16 @@ jQuery("#acs-sp-postcode-search-trigger").on('click', function () {
     postcodeSearch(jQuery("#acs-sp-postcode-input").val());
 });
 
-function postcodeSearch(postcode, street, alert_error = true) {
+function postcodeSearch(postcode, street, country = 'GR') {
     if (!prepared) {
         prepare();
     }
     let geocoder = new google.maps.Geocoder();
-    let address = street + ", " + postcode + ", GR";
+    let address = "";
+    if (street !== undefined) {
+        address = street + ", ";
+    }
+    address = address + "ΤΚ " + postcode + ", " + country;
     geocoder.geocode({'address': address}, function (results, status) {
         if (status === 'OK' && results.length != 0) {
 
@@ -170,7 +177,7 @@ function postcodeSearch(postcode, street, alert_error = true) {
             map.setCenter(results[0].geometry.location);
             if (is_address) {
                 map.setZoom(16);
-        } else {
+            } else {
                 map.setZoom(14);
             }
         }
@@ -240,12 +247,12 @@ function initMap() {
 function fetchLocations() {
     jQuery.ajax({
         dataType: "json",
-        url: filesUrl + pluginFolder + "data.json?v="+new Date().getTime(),
+        url: filesUrl + pluginFolder + "data.json?v=" + new Date().getTime(),
         async: false,
         success: function (data) {
-        locations = data.points;
-        addMarkers();
-        fillFooter(data.meta);
+            locations = data.points;
+            addMarkers();
+            fillFooter(data.meta);
         }
     });
 }
@@ -289,18 +296,17 @@ function toggleMapModal() {
 function calculateDistanceBetweenTwoCoordinatesInKm(lat1, lon1, lat2, lon2) {
     if ((lat1 === lat2) && (lon1 === lon2)) {
         return 0;
-    }
-    else {
-        var radlat1 = Math.PI * lat1/180;
-        var radlat2 = Math.PI * lat2/180;
-        var theta = lon1-lon2;
-        var radtheta = Math.PI * theta/180;
+    } else {
+        var radlat1 = Math.PI * lat1 / 180;
+        var radlat2 = Math.PI * lat2 / 180;
+        var theta = lon1 - lon2;
+        var radtheta = Math.PI * theta / 180;
         var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
         if (dist > 1) {
             dist = 1;
         }
         dist = Math.acos(dist);
-        dist = dist * 180/Math.PI;
+        dist = dist * 180 / Math.PI;
         dist = dist * 60 * 1.1515;
         return dist * 1.609344;
     }
@@ -317,7 +323,7 @@ function findNearestPoint(lat, lng, is_address = true) {
 
     for (lcnt = 0; lcnt < locations.length; lcnt++) {
         distance = calculateDistanceBetweenTwoCoordinatesInKm(lat, lng, locations[lcnt].lat, locations[lcnt].lon);
-        if (min_distance > distance ) {
+        if (min_distance > distance) {
             min_distance = distance;
             min_lat = locations[lcnt].lat;
             min_lng = locations[lcnt].lon;
@@ -330,7 +336,7 @@ function findNearestPoint(lat, lng, is_address = true) {
         distanceText = distanceText.toFixed(0);
         text += '<img src="' + filesUrl + pluginFolder + '/icons/point.svg" alt="point-icon" />'
         if (is_address) {
-            text += "Πλησιέστερο point: <strong>" +(distanceText)+ "</strong>m"
+            text += "Πλησιέστερο point: <strong>" + (distanceText) + "</strong>m"
         } else {
             text += "Υπάρχει ACS Point στην περιοχή σου";
         }
@@ -338,10 +344,9 @@ function findNearestPoint(lat, lng, is_address = true) {
     jQuery(elementDistanceToPoint).html(text);
 }
 
-jQuery(document).on('change', elementInputPostcode+','+elementInputAddress+','+elementInputCity, function() {
+jQuery(document).on('change', elementInputPostcode + ',' + elementInputAddress + ',' + elementInputCity, function () {
     postcodeSearch(
         jQuery(elementInputPostcode).val(),
-        jQuery(elementInputAddress).val() + ',' + jQuery(elementInputCity).val(),
-        false
+        jQuery(elementInputAddress).val() + ',' + jQuery(elementInputCity).val()
     );
 });

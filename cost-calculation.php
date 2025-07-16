@@ -81,8 +81,8 @@ function calculate_type(
 {
     preg_match('/\d([^\d]{2})\d+/u', $sender_billing_code, $matches);
     $sender_store = $matches[1] ?? null;
-    $sender_zipcode_data = $this->getDataFromZipcode($sender_zipcode);
-    $recipient_zipcode_data = $this->getDataFromZipcode($recipient_zipcode);
+    $sender_zipcode_data = getDataFromZipcode($sender_zipcode);
+    $recipient_zipcode_data = getDataFromZipcode($recipient_zipcode);
 
     if (!in_array($recipient_country, ['GR', 'CY']) && !in_array($sender_country, ['GR', 'CY'])) {
         return false;

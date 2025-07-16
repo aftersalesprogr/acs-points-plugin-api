@@ -317,11 +317,13 @@
     cursor: pointer;
     z-index: 200;
 }
+
 .acs-sp-sidebar-close-btn {
     position: absolute;
     top: 50%;
     left: 300px;
     margin-top: -25px;
+    padding: 20px;
     transform: rotate(180deg);
     -webkit-transition: all 300ms linear;
     -moz-transition: all 300ms linear;
@@ -378,6 +380,7 @@
     transform: rotate(-45deg);
     left: 24px;
 }
+
 .gm-style-iw-d {
     overflow: scroll;
     max-height: 600px !important;
@@ -408,6 +411,9 @@
     display: flex;
     align-items: center;
     padding-top: 10px;
+    background: #efefef;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .mg-selected-locker-link {
@@ -416,13 +422,16 @@
 }
 
 .mg-selected-locker-link img {
-    width: 30px;
-    margin-right: 10px;
+    width: 20%;
+    margin-right: 2%;
+    display: inline-block;
 }
 
 .mg-selected-locker-container .mg-selected-locker-content {
+    width: 76%;
     line-height: 16px;
     font-size: 14px;
+    display: inline-block;
 }
 
 .acs-points-new {
@@ -431,6 +440,30 @@
     border-radius: 10px;
     padding: 0px 5px 1px;
     font-size: 12px;
+    margin-right: 5px;
+}
+
+
+.mg-selected-locker-payment-status-yes {
+    background: #269200;
+    color: #FFF;
+    border-radius: 10px;
+    padding: 0px 8px 1px;
+    font-size: 12px;
+    clear: both;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+
+.mg-selected-locker-payment-status-no {
+    background: #E3001C;
+    color: #FFF;
+    border-radius: 10px;
+    padding: 0px 8px 1px;
+    font-size: 12px;
+    clear: both;
+    display: inline-block;
     margin-right: 5px;
 }
 

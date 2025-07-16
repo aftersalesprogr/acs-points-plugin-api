@@ -5,8 +5,8 @@ $settings = [
     'acsUserID' => '',
     'acsUserPassword' => '',
     'acsApiKey' => '',
+    'countries_availability' => '', //all, cy, gr
 ];
-
 $content = [
     'ACSAlias' => 'ACS_Get_Stations_For_Plugin',
     'ACSInputParameters' => [
@@ -26,7 +26,7 @@ curl_setopt($curl, CURLOPT_HTTPHEADER,
     array(
         'Accept: application/json',
         'Content-Type: application/json',
-        'ACSApiKey: '.$settings['acsApiKey'],
+        'ACSApiKey: ' . $settings['acsApiKey'],
     )
 );
 curl_setopt($curl, CURLOPT_POST, true);
@@ -39,8 +39,29 @@ $response = json_decode($json_response, true);
 
 $points = $response['ACSOutputResponce']['ACSTableOutput']['Table_Data1'] ?? [];
 
-$points = array_values(array_filter($points, function ($item) {
-    return $item['type'] !== 'branch' || $item['Acs_Station_Branch_Destination'] == '1';
+$points = array_values(array_filter($points, function ($item) use ($settings) {
+
+    if ($item['type'] == 'branch' && $item['Acs_Station_Branch_Destination'] != '1') {
+        return false;
+    }
+
+    if (
+        isset($settings['countries_availability'])
+        && $settings['countries_availability'] == 'cy'
+        && $item['Country_Code'] != 'CY'
+    ) {
+        return false;
+    }
+
+    if (
+        isset($settings['countries_availability'])
+        && $settings['countries_availability'] == 'gr'
+        && $item['Country_Code'] != 'GR'
+    ) {
+        return false;
+    }
+
+    return true;
 }));
 
 $data = [
@@ -50,7 +71,7 @@ $data = [
 ];
 
 file_put_contents(
-    __DIR__.'/data.json',
+    __DIR__ . '/data.json',
     json_encode([
         'timestamp' => date('Y-m-d H:i'),
         'meta' => $response['ACSOutputResponce']['ACSTableOutput']['Table_Data'] ?? [],

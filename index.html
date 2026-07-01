@@ -5,8 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ACS Points Plugin demo</title>
     <link rel="stylesheet" href="./css/styles.css">
+
+    <script>
+        var mapProvider = new URLSearchParams(window.location.search).get('provider') || 'google';
+        if (mapProvider === 'osm') {
+            document.write('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">');
+            document.write('<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">');
+            document.write('<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">');
+        }
+    </script>
+
+    <style>
+        #provider-switcher {
+            position: fixed;
+            top: 12px; right: 12px;
+            z-index: 9999;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-family: sans-serif;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.15);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #provider-switcher label { font-weight: 600; margin: 0; }
+        #provider-switcher select { font-size: 13px; border-radius: 4px; border: 1px solid #ccc; padding: 2px 6px; }
+    </style>
 </head>
 <body>
+
+<!-- Provider switcher -->
+<div id="provider-switcher">
+    <label for="map-provider">🗺 Map Provider:</label>
+    <select id="map-provider" onchange="window.location.href='?provider='+this.value">
+        <option value="google">Google Maps</option>
+        <option value="osm">OpenStreetMap (free)</option>
+    </select>
+</div>
 
 <!-- Checkout - Shipping options -->
 <input type="text" value="Petrou Ralli 36-38" placeholder="Address" id="billing_address"/>
@@ -48,7 +86,12 @@
 
 <script src="//code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-<script src="./js/script.js"></script>
+
+<script>
+    // Set dropdown to current provider
+    document.getElementById('map-provider').value = mapProvider;
+</script>
+
 <script>
     function findClosestLocker() {
         postcodeSearch(
@@ -57,9 +100,19 @@
         );
     }
 </script>
-<script src="./js/markerclusterer.js"></script>
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=GOOGLEMAPSAPIKEY&libraries=geometry&callback=findClosestLocker"></script>
+
+<script>
+    if (mapProvider === 'osm') {
+        document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>');
+        document.write('<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"><\/script>');
+        document.write('<script src="./js/script-osm.js"><\/script>');
+        document.write('<script>jQuery(document).ready(function(){ findClosestLocker(); });<\/script>');
+    } else {
+        document.write('<script src="./js/script.js"><\/script>');
+        document.write('<script src="./js/markerclusterer.js"><\/script>');
+        document.write('<script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEMAPSAPIKEY&libraries=geometry&callback=findClosestLocker"><\/script>');
+    }
+</script>
+
 </body>
 </html>
-
